@@ -14,13 +14,23 @@ function App() {
   const apiurl = "http://www.omdbapi.com/?apikey=dfe6d885";
 
   const search = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && state.s.trim() !== "") {
       axios(apiurl + "&s=" + state.s).then(({ data }) => {
-        let results = data.Search;
+        if (data.Response === "True") {
+          let results = data.Search;
 
+          setState(prevState => {
+            return { ...prevState, results: results, errorMessage: "" }
+          });
+        } else {
+          setState(prevState => {
+            return { ...prevState, results: [], errorMessage: "No results found" }
+          });
+        }
+      }).catch(error => {
         setState(prevState => {
-          return { ...prevState, results: results }
-        })
+          return { ...prevState, errorMessage: "An error occurred. Please try again later." }
+        });
       });
     }
   }
