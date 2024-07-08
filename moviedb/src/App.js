@@ -17,7 +17,7 @@ function App() {
         let results = data.Search;
 
         setState (prevState => {
-          return { ...prevState, results: results }
+          return { ...prevState, results: results };
         })
       });
     }
